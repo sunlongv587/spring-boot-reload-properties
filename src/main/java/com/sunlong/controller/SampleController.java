@@ -1,7 +1,7 @@
 package com.sunlong.controller;
 
+import org.apache.commons.configuration2.PropertiesConfiguration;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,13 +13,15 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class SampleController {
-    @Autowired
-    private KafkaTemplate<String, String> template;
 
-    @GetMapping("/send")
-    String send(String topic, String key, String data) {
-        template.send(topic, key, data);
-        return "success";
+    @Autowired
+    private PropertiesConfiguration commonConfig;
+
+    @GetMapping("/getName")
+    public String getName() throws Exception{
+
+        return commonConfig.getString("name");
+//        return "success";
     }
 
 }
