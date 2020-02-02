@@ -1,27 +1,35 @@
 package com.sunlong.controller;
 
-import org.apache.commons.configuration2.PropertiesConfiguration;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.sunlong.annotation.RefreshScope;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /*
  * kafkaDemo
  *
- * @Author 孙龙
+ * @author 孙龙
  * @Date 2018/1/19
  */
+@RefreshScope
 @RestController
 public class SampleController {
 
-    @Autowired
-    private PropertiesConfiguration commonConfig;
+    @Value("${name}")
+    private String name;
 
-    @GetMapping("/getName")
-    public String getName() throws Exception{
+    @Value("${address}")
+    private String address;
 
-        return commonConfig.getString("name");
-//        return "success";
+    @Value("${test}")
+    private boolean test;
+
+    @Value("${age}")
+    private int age;
+
+    @GetMapping("/fileSystem")
+    public String getConfig() {
+
+        return "name: " + name + "\n address: " + address + "\n age: " + age + "\n test: " + test;
     }
-
 }

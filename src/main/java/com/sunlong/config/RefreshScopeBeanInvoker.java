@@ -1,5 +1,6 @@
 package com.sunlong.config;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.util.StringUtils;
@@ -8,6 +9,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
+import java.math.BigDecimal;
 import java.util.Map;
 
 /**
@@ -16,6 +18,7 @@ import java.util.Map;
  * @author rongdi
  * @date 2019-09-21 10:10:01
  */
+@Slf4j
 public class RefreshScopeBeanInvoker {
 
     private final static String VALUE_REGEX = "\\$\\{(.*)}";
@@ -59,7 +62,26 @@ public class RefreshScopeBeanInvoker {
             // 就不调用set方法了，直接给属性赋值吧。
             if (props.containsKey(key)) {
                 field.setAccessible(true);
-                field.set(bean, props.get(key));
+                if (field.getType() == Boolean.class || field.getType() == boolean.class) {
+                    field.set(bean, Boolean.parseBoolean((String) props.get(key)));
+                } else if (field.getType() == Byte.class || field.getType() == byte.class) {
+                    field.set(bean, Byte.parseByte((String) props.get(key)));
+                } else if (field.getType() == Short.class || field.getType() == short.class) {
+                    field.set(bean, Short.parseShort((String) props.get(key)));
+                } else if (field.getType() == Integer.class || field.getType() == int.class) {
+                    field.set(bean, Integer.parseInt((String) props.get(key)));
+                } else if (field.getType() == Long.class || field.getType() == long.class) {
+                    field.set(bean, Long.parseLong((String) props.get(key)));
+                } else if (field.getType() == Float.class || field.getType() == float.class) {
+                    field.set(bean, Float.parseFloat((String) props.get(key)));
+                } else if (field.getType() == Double.class || field.getType() == double.class) {
+                    field.set(bean, Double.parseDouble((String) props.get(key)));
+                } else if (field.getType() == BigDecimal.class) {
+                    field.set(bean, new BigDecimal((String) props.get(key)));
+                } else {
+                    field.set(bean, props.get(key));
+                }
+                log.info("setValue successful key: {}, value: {}", key, field.get(bean));
             }
         }
         // 获取所有的方法

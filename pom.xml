@@ -8,7 +8,7 @@
     <version>1.0.0</version>
     <packaging>jar</packaging>
 
-    <name>spring-boot-kafka-demo</name>
+    <name>spring-boot-reload-properties</name>
     <description>Demo project for Spring Boot</description>
 
     <parent>
@@ -30,16 +30,10 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-configuration2</artifactId>
-            <version>2.6</version>
-        </dependency>
-        <dependency>
-            <groupId>commons-beanutils</groupId>
-            <artifactId>commons-beanutils</artifactId>
-            <version>1.9.3</version>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>21.0</version>
         </dependency>
         <dependency>
             <groupId>com.alibaba</groupId>
